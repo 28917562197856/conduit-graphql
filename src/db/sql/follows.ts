@@ -21,7 +21,20 @@ async function remove(followerId: number, followeeId: number) {
   return db.none(sqlRemove, [followerId, followeeId]);
 }
 
+let sqlFind = `
+SELECT * FROM follows
+WHERE 
+  "followerId" = $1 
+AND 
+  "followeeId" = $2
+`;
+
+async function find(followerId: number, followeeId: number) {
+  return db.oneOrNone(sqlFind, [followerId, followeeId]);
+}
+
 export let follows = {
   add,
-  remove
+  remove,
+  find
 };

@@ -24,7 +24,7 @@ WHERE
 `;
 
 async function find(username: string) {
-  return db.one(sqlFind, username);
+  return db.oneOrNone(sqlFind, username);
 }
 
 let sqlFindEmail = `
@@ -36,7 +36,19 @@ WHERE
 `;
 
 async function findEmail(email: string) {
-  return db.one(sqlFindEmail, email);
+  return db.oneOrNone(sqlFindEmail, email);
+}
+
+let sqlFindId = `
+SELECT
+  *
+FROM users
+WHERE
+  id = $1
+`;
+
+async function findId(id: number) {
+  return db.oneOrNone(sqlFindId, id);
 }
 
 async function update(userId: number, vars: object) {
@@ -49,5 +61,6 @@ export let users = {
   add,
   find,
   findEmail,
+  findId,
   update
 };

@@ -1,15 +1,29 @@
 import "reflect-metadata";
 import "dotenv/config";
-import express from "express";
-import { ApolloServer } from "apollo-server-express";
-import { resolvers } from "./graphql/resolvers";
-import { typeDefs } from "./graphql/schema";
+import express, { json } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { getUser, newAccessToken, newRefreshToken } from "./auth";
-import { verify } from "jsonwebtoken";
-import { db } from "./db";
+import { refresh_token, auth, logout } from "./auth";
 import e from "express";
+import {
+  register,
+  login,
+  user,
+  updateUser,
+  profile,
+  follow,
+  unfollow
+} from "./users";
+import {
+  getArticles,
+  getArticle,
+  addArticle,
+  updateArticle,
+  deleteArticle,
+  getTags
+} from "./articles";
+import { addComment, getComments, removeComment } from "./comments";
+import { favoriteArticle, unfavoriteArticle } from "./favorites";
 
 type User = {
   userId: number;
@@ -21,6 +35,10 @@ export type Context = {
   user?: User;
 };
 
+export interface reqWithUser extends e.Request {
+  user: any;
+}
+
 (async () => {
   let app = express();
 
@@ -30,49 +48,39 @@ export type Context = {
       credentials: true
     })
   );
-
+  app.use(json());
   app.use(cookieParser());
+  app.use(
+    [
+      "/refresh_token",
+      "/user",
+      "/profiles/:username/follow",
+      "/articles/:slug/favorite",
+      "/logout"
+    ],
+    auth
+  );
 
-  app.post("/refresh_token", async (req, res) => {
-    let token = req.cookies.jid;
-    if (!token) {
-      return res.send({ ok: false, accessToken: "" });
-    }
-
-    let payload: any;
-    try {
-      payload = verify(token, process.env.REFRESH_TOKEN_SECRET!);
-    } catch (err) {
-      console.log(err);
-      return res.send({ ok: false, accessToken: "" });
-    }
-
-    let user = await db.one("SELECT * FROM users WHERE id = $1", [
-      payload.userId
-    ]);
-
-    res.cookie("jid", newRefreshToken(user), {
-      httpOnly: true,
-      path: "/refresh_token",
-      maxAge: 1000 * 60 * 60 * 24 * 7
-    });
-
-    return res.send({ ok: true, accessToken: newAccessToken(user) });
-  });
-
-  let apolloServer = new ApolloServer({
-    typeDefs,
-    resolvers,
-    context: ({ req, res }) => {
-      let token = req.headers.authorization ?? "";
-
-      let user = getUser(token);
-
-      return { req, res, user };
-    }
-  });
-
-  apolloServer.applyMiddleware({ app, cors: false });
+  app.post("/refresh_token", refresh_token);
+  app.post("/register", register);
+  app.post("/login", login);
+  app.get("/user", user);
+  app.put("/user", updateUser);
+  app.get("/profiles/:username", profile);
+  app.post("/profiles/:username/follow", follow);
+  app.delete("/profiles/:username/follow", unfollow);
+  app.get("/articles", getArticles);
+  app.get("/articles/:slug", getArticle);
+  app.post("/articles", auth, addArticle);
+  app.put("/articles/:slug", auth, updateArticle);
+  app.delete("/articles/:slug", auth, deleteArticle);
+  app.post("/articles/:slug/comments", auth, addComment);
+  app.get("/articles/:slug/comments", getComments);
+  app.delete("/articles/:slug/comments/:id", removeComment);
+  app.post("/articles/:slug/favorite", favoriteArticle);
+  app.delete("/articles/:slug/favorite", unfavoriteArticle);
+  app.get("/tags", getTags);
+  app.delete("/logout", logout);
 
   app.listen(4000, () => console.log("Server started"));
 })();

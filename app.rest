@@ -1,0 +1,51 @@
+GET http://localhost:4000/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE1NzgyNDgzNzgsImV4cCI6MTU3ODI0OTI3OH0.VTiZovPBH91sQkGsEtSeEAiT7GsOksDudz_efSfaWW8
+
+#####
+
+POST http://localhost:4000/login
+Content-Type: application/json
+
+{
+    "email": "w",
+    "password": "w"
+}
+
+#####
+
+POST http://localhost:4000/register
+
+{
+    "username": "bob",
+    "email": "thebuilder"
+    "password": "asdasd" 
+}
+
+#####
+
+GET http://localhost:4000/user
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE1NzgyNTA1NjQsImV4cCI6MTU3ODI1MTQ2NH0.8O5jAHIUkKMSO-DUZp85-SFAX1pcsbkuMupLZh3e7GU 
+
+######
+
+GET http://localhost:4000/profiles/xcbxcb
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE1NzgyNTE1NDYsImV4cCI6MTU3ODg1NjM0Nn0.7hArOxeXpItUDZliag2X69_lTcTTc5xVLi1S8WMZCco
+
+######
+
+POST http://localhost:4000/profiles/zxc/follow
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE1NzgyNTE1NDYsImV4cCI6MTU3ODg1NjM0Nn0.7hArOxeXpItUDZliag2X69_lTcTTc5xVLi1S8WMZCco
+
+######
+
+DELETE http://localhost:4000/profiles/zxc/follow
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE1NzgyNTE1NDYsImV4cCI6MTU3ODg1NjM0Nn0.7hArOxeXpItUDZliag2X69_lTcTTc5xVLi1S8WMZCco
+
+######
+
+GET http://localhost:4000/articles/?tag=Angular
+
+######
+
+GET http://localhost:4000/articles/eee
