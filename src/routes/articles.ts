@@ -1,6 +1,6 @@
-import { articles } from "./db/sql/articles";
+import { articles } from "../db/sql/articles";
 import e = require("express");
-import { reqWithUser } from "./";
+import { reqWithUser } from "..";
 
 async function getArticles(req: e.Request, res: e.Response) {
   let articleList = await articles.findAll();
@@ -29,7 +29,7 @@ async function addArticle(req: reqWithUser, res: e.Response) {
     createdAt: new Date().toUTCString(),
     updatedAt: new Date().toUTCString(),
     favoritesCount: 0,
-    userId: req.body.userId
+    userId: req.user.userId
   });
 
   res.json(article);
@@ -52,7 +52,7 @@ async function updateArticle(req: reqWithUser, res: e.Response) {
     vars = { ...vars, description: req.body.description };
   if (req.body.body) vars = { ...vars, body: req.body.body };
 
-  let article = await articles.update(req.body.slug, vars);
+  let article = await articles.update(req.params.slug, vars);
 
   res.json(article);
 }
@@ -60,15 +60,15 @@ async function updateArticle(req: reqWithUser, res: e.Response) {
 async function deleteArticle(req: reqWithUser, res: e.Response) {
   if (!req.user) throw new Error("Not authenticated");
 
-  let article = await articles.remove(req.body.slug);
+  let article = await articles.remove(req.params.slug);
 
   res.json(article);
 }
-async function getTags() {
+async function getTags(req: e.Request, res: e.Response) {
   let tags = await articles.getTags();
-  tags = tags.flatMap(x => x.tagList);
+  tags = tags.flatMap(x => x.tagList).filter(x => x !== null);
   let uniqueTags: any = [...new Set(tags)];
-  return uniqueTags;
+  res.json(uniqueTags);
 }
 
 export {

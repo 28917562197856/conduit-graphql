@@ -3,7 +3,7 @@ import "dotenv/config";
 import express, { json } from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { refresh_token, auth, logout } from "./auth";
+import { refresh_token, auth, logout } from "./routes/auth";
 import e from "express";
 import {
   register,
@@ -13,7 +13,7 @@ import {
   profile,
   follow,
   unfollow
-} from "./users";
+} from "./routes/users";
 import {
   getArticles,
   getArticle,
@@ -21,19 +21,9 @@ import {
   updateArticle,
   deleteArticle,
   getTags
-} from "./articles";
-import { addComment, getComments, removeComment } from "./comments";
-import { favoriteArticle, unfavoriteArticle } from "./favorites";
-
-type User = {
-  userId: number;
-};
-
-export type Context = {
-  req: e.Request;
-  res: e.Response;
-  user?: User;
-};
+} from "./routes/articles";
+import { addComment, getComments, removeComment } from "./routes/comments";
+import { favoriteArticle, unfavoriteArticle } from "./routes/favorites";
 
 export interface reqWithUser extends e.Request {
   user: any;
@@ -56,6 +46,7 @@ export interface reqWithUser extends e.Request {
       "/user",
       "/profiles/:username/follow",
       "/articles/:slug/favorite",
+      "/articles/:slug/comments/:id",
       "/logout"
     ],
     auth

@@ -1,7 +1,7 @@
 import { sign, verify } from "jsonwebtoken";
-import { reqWithUser } from "./";
+import { reqWithUser } from "..";
 import e from "express";
-import { users } from "./db/sql/users";
+import { users } from "../db/sql/users";
 
 function newAccessToken(user: any) {
   return sign({ userId: user.id }, process.env.ACCESS_TOKEN_SECRET!, {

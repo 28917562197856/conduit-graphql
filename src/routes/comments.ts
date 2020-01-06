@@ -1,17 +1,17 @@
-import { reqWithUser } from "./";
+import { reqWithUser } from "..";
 import e = require("express");
-import { articles } from "./db/sql/articles";
-import { comments } from "./db/sql/comments";
+import { articles } from "../db/sql/articles";
+import { comments } from "../db/sql/comments";
 
 async function addComment(req: reqWithUser, res: e.Response) {
   if (!req.user) throw new Error("Not authenticated");
 
-  let { id } = await articles.find(req.body.slug);
+  let { id } = await articles.find(req.params.slug);
 
   let comment = {
     createdAt: new Date().toUTCString(),
     body: req.body.body,
-    userId: req.body.user.userId,
+    userId: req.user.userId,
     articleId: id
   };
 
@@ -21,9 +21,10 @@ async function addComment(req: reqWithUser, res: e.Response) {
 }
 
 async function getComments(req: e.Request, res: e.Response) {
-  let { id } = await articles.find(req.body.slug);
+  let { id } = await articles.find(req.params.slug);
   let result = await comments.findAll(id);
-  return result;
+
+  res.json(result);
 }
 
 async function removeComment(req: reqWithUser, res: e.Response) {

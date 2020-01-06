@@ -27,7 +27,7 @@ WHERE
 `;
 
 async function find(slug: string) {
-  return db.one(sqlFind, slug);
+  return db.oneOrNone(sqlFind, slug);
 }
 
 async function findAll() {
@@ -37,7 +37,7 @@ async function findAll() {
 async function update(slug: string, vars: object) {
   let update = pgp.helpers.update(vars, undefined, "articles");
   update += ` WHERE slug='${slug}' RETURNING *`;
-  return db.one(update);
+  return db.oneOrNone(update);
 }
 
 let sqlRemove = `

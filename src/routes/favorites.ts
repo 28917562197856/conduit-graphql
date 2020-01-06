@@ -1,7 +1,7 @@
 import { reqWithUser } from "src";
 import e = require("express");
-import { articles } from "./db/sql/articles";
-import { favorites } from "./db/sql/favorites";
+import { articles } from "../db/sql/articles";
+import { favorites } from "../db/sql/favorites";
 
 async function favoriteArticle(req: reqWithUser, res: e.Response) {
   if (!req.user) throw new Error("Not authenticated");

@@ -1,9 +1,9 @@
 import { newAccessToken, newRefreshToken } from "./auth";
 import bcrypt from "bcrypt";
 import e from "express";
-import { users } from "./db/sql/users";
-import { reqWithUser } from "./";
-import { follows } from "./db/sql/follows";
+import { users } from "../db/sql/users";
+import { reqWithUser } from "..";
+import { follows } from "../db/sql/follows";
 
 function userObject(user: any) {
   return {

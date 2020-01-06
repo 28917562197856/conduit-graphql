@@ -27,25 +27,87 @@ POST http://localhost:4000/register
 GET http://localhost:4000/user
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE1NzgyNTA1NjQsImV4cCI6MTU3ODI1MTQ2NH0.8O5jAHIUkKMSO-DUZp85-SFAX1pcsbkuMupLZh3e7GU 
 
-######
+#####
 
 GET http://localhost:4000/profiles/xcbxcb
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE1NzgyNTE1NDYsImV4cCI6MTU3ODg1NjM0Nn0.7hArOxeXpItUDZliag2X69_lTcTTc5xVLi1S8WMZCco
 
-######
+#####
 
 POST http://localhost:4000/profiles/zxc/follow
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE1NzgyNTE1NDYsImV4cCI6MTU3ODg1NjM0Nn0.7hArOxeXpItUDZliag2X69_lTcTTc5xVLi1S8WMZCco
 
-######
+#####
 
 DELETE http://localhost:4000/profiles/zxc/follow
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE1NzgyNTE1NDYsImV4cCI6MTU3ODg1NjM0Nn0.7hArOxeXpItUDZliag2X69_lTcTTc5xVLi1S8WMZCco
 
-######
+#####
 
-GET http://localhost:4000/articles/?tag=Angular
+GET http://localhost:4000/articles/
 
-######
+#####
 
 GET http://localhost:4000/articles/eee
+
+#####
+
+POST http://localhost:4000/articles/
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE1NzgyNTE1NDYsImV4cCI6MTU3ODg1NjM0Nn0.7hArOxeXpItUDZliag2X69_lTcTTc5xVLi1S8WMZCco
+Content-Type: application/json
+
+{
+    "title": "zxcxzcxzczx",
+    "description": "zxczxczxc",
+    "body": "zxcxzczxczxc"
+}
+
+#####
+
+PUT http://localhost:4000/articles/zxcxzcxzczx
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE1NzgyNTE1NDYsImV4cCI6MTU3ODg1NjM0Nn0.7hArOxeXpItUDZliag2X69_lTcTTc5xVLi1S8WMZCco
+Content-Type: application/json
+
+{
+    "title": "zxcxxzcxzczx",
+    "description": "zzzzzzz",
+    "body": "zxcxzczxczxc"
+}
+
+#####
+
+DELETE http://localhost:4000/articles/zxcxxzcxzczx
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE1NzgyNTE1NDYsImV4cCI6MTU3ODg1NjM0Nn0.7hArOxeXpItUDZliag2X69_lTcTTc5xVLi1S8WMZCco
+
+#####
+
+POST http://localhost:4000/articles/eee/comments
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE1NzgyNTE1NDYsImV4cCI6MTU3ODg1NjM0Nn0.7hArOxeXpItUDZliag2X69_lTcTTc5xVLi1S8WMZCco
+Content-Type: application/json
+
+{
+    "body": "this is a comment"
+}
+
+#####
+
+GET http://localhost:4000/articles/eee/comments
+
+#####
+
+DELETE http://localhost:4000/articles/eee/comments/3
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE1NzgzMTc0ODIsImV4cCI6MTU3ODkyMjI4Mn0.RJqBF5MVd0vGOSPS7H1qiqOiFtmEnV1hXMIQlpA3v4A
+
+#####
+
+POST http://localhost:4000/articles/asdasd/favorite
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE1NzgzMTc0ODIsImV4cCI6MTU3ODkyMjI4Mn0.RJqBF5MVd0vGOSPS7H1qiqOiFtmEnV1hXMIQlpA3v4A
+
+#####
+
+DELETE http://localhost:4000/articles/asdasd/favorite
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE0LCJpYXQiOjE1NzgzMTc0ODIsImV4cCI6MTU3ODkyMjI4Mn0.RJqBF5MVd0vGOSPS7H1qiqOiFtmEnV1hXMIQlpA3v4A
+
+#####
+
+GET http://localhost:4000/tags
