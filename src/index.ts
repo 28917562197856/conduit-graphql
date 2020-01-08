@@ -42,7 +42,6 @@ export interface reqWithUser extends e.Request {
   app.use(cookieParser());
   app.use(
     [
-      "/refresh_token",
       "/user",
       "/profiles/:username/follow",
       "/articles/:slug/favorite",
@@ -71,7 +70,7 @@ export interface reqWithUser extends e.Request {
   app.post("/articles/:slug/favorite", favoriteArticle);
   app.delete("/articles/:slug/favorite", unfavoriteArticle);
   app.get("/tags", getTags);
-  app.delete("/logout", logout);
+  app.post("/logout", logout);
 
   app.listen(4000, () => console.log("Server started"));
 })();

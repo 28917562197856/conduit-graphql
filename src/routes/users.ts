@@ -15,7 +15,7 @@ function userObject(user: any) {
   };
 }
 
-function profileObject(user: any, following: boolean) {
+export function profileObject(user: any, following: boolean) {
   return {
     username: user.username,
     bio: user.bio,
@@ -39,7 +39,6 @@ async function register(req: e.Request, res: e.Response) {
 
   res.cookie("jid", newRefreshToken(user), {
     httpOnly: true,
-    path: "/refresh_token",
     maxAge: 1000 * 60 * 60 * 24 * 7
   });
 
@@ -55,7 +54,6 @@ async function login(req: e.Request, res: e.Response) {
 
   res.cookie("jid", newRefreshToken(user), {
     httpOnly: true,
-    path: "/refresh_token",
     maxAge: 1000 * 60 * 60 * 24 * 7
   });
 
@@ -70,9 +68,12 @@ async function user(req: reqWithUser, res: e.Response) {
 }
 
 async function profile(req: reqWithUser, res: e.Response) {
-  if (!req.user) throw new Error("Not authenticated");
-  let follower = await users.findId(req.user.userId);
   let followee = await users.find(req.params.username);
+  if (!req.user) {
+    res.json(profileObject(followee, false));
+    return;
+  }
+  let follower = await users.findId(req.user.userId);
   if (!followee) {
     res.json(profileObject(follower, false));
     return;

@@ -1,11 +1,29 @@
 import { articles } from "../db/sql/articles";
 import e = require("express");
 import { reqWithUser } from "..";
+import { users } from "../db/sql/users";
+import { profileObject } from "./users";
 
 async function getArticles(req: e.Request, res: e.Response) {
-  let articleList = await articles.findAll();
+  let articleList: any;
+  if (req.params.author) {
+    let user = await users.find(req.params.author);
+    articleList = await articles.findFromUser(user.userId);
+  } else {
+    articleList = await articles.findAll();
+  }
 
-  res.json(articleList);
+  let newArticleList: any[] = [];
+
+  for (let i = 0; i < articleList.length; ++i) {
+    let user: any = await users.findId(articleList[i].userId);
+    newArticleList.push({
+      ...articleList[i],
+      user: profileObject(user, false)
+    });
+  }
+
+  res.json(newArticleList);
 }
 
 async function getArticle(req: e.Request, res: e.Response) {
@@ -66,7 +84,7 @@ async function deleteArticle(req: reqWithUser, res: e.Response) {
 }
 async function getTags(req: e.Request, res: e.Response) {
   let tags = await articles.getTags();
-  tags = tags.flatMap(x => x.tagList).filter(x => x !== null);
+  tags = tags.flatMap(x => x.tagList).filter(x => x);
   let uniqueTags: any = [...new Set(tags)];
   res.json(uniqueTags);
 }

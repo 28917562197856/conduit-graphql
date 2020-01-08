@@ -30,6 +30,18 @@ async function find(slug: string) {
   return db.oneOrNone(sqlFind, slug);
 }
 
+let sqlFindFromUser = `
+SELECT
+  *
+FROM articles
+WHERE
+  userId = $1
+`;
+
+async function findFromUser(userId: number) {
+  return db.any(sqlFindFromUser, userId);
+}
+
 async function findAll() {
   return db.any("SELECT * FROM articles");
 }
@@ -54,6 +66,7 @@ async function getTags() {
 export let articles = {
   add,
   find,
+  findFromUser,
   findAll,
   update,
   remove,
